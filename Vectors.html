@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chapter 1 - Vectors</title>
+</head>
+<body>
+    <canvas id="canvas">
+        <p>Your browser doesn't support canvas.</p>
+    </canvas>
+    <script type="text/javascript" src="Vector2D.js"></script>
+    <script type="text/javascript" src="Mover.js"></script>
+    <script type="text/javascript" src="Vectors.js"></script>
+    <script >
+        var natureOfCode = natureOfCode || {};
+        var canvas = document.getElementById("canvas");
+        var app = new natureOfCode.Vectors(canvas);
+        app.run();
+        canvas.onmousemove = function(ev){
+            app.setMousePosition(ev.x,ev.y);
+        }
+    </script>
+</body>
+</html>

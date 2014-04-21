@@ -1,15 +1,16 @@
 var natureOfCode = natureOfCode || {};
 
 
-natureOfCode.Vectors = function (canvas) {
+natureOfCode.Vectors = (function (canvas) {
     "use strict";
 
-    var width = 0, height = 0,
+    var width = 600, height = 400,
         numberOfMovers = 20,
         movers = [],
         refreshRate = 40,
         mouseX = 0, mouseY = 0,
         backgroundColor = 'antiqueWhite',
+
         draw = function () {
             var context = canvas.getContext("2d");
             context.clearRect ( 0 , 0 , width , height );
@@ -30,21 +31,22 @@ natureOfCode.Vectors = function (canvas) {
         },
 
         setup = function () {
-            width = canvas.width;
-            height = canvas.height;
+            canvas.width = width;
+            canvas.height = height;
+
+            canvas.onmousemove = function(ev){
+                var boundingRect = canvas.getBoundingClientRect();
+                setMousePosition(ev.clientX - boundingRect.left, ev.clientY - boundingRect.top);
+            };
 
             for(var i = 0;i<numberOfMovers;i++){
                 var randX = Math.random()*width;
                 var randY = Math.random()*height;
-                movers.push(new natureOfCode.Mover(randX,randY))
+                movers.push(new natureOfCode.Mover(randX,randY));
             }
 
-            canvas.getContext("2d").clearRect ( 0 , 0 , width , height );
-        },
 
-        run = function () {
-            setup();
-            draw();
+            canvas.getContext("2d").clearRect ( 0 , 0 , width , height );
         },
 
         setMousePosition = function(x, y){
@@ -52,17 +54,8 @@ natureOfCode.Vectors = function (canvas) {
             mouseY = y;
         };
 
-    return {
-        run: run,
-        setMousePosition: setMousePosition
-    };
-};
 
-var canvas = document.getElementById('canvas');
-var app = new natureOfCode.Vectors(canvas);
-app.run();
-canvas.onmousemove = function(ev){
-    var boundingRect = canvas.getBoundingClientRect();
-    app.setMousePosition(ev.clientX - boundingRect.left, ev.clientY - boundingRect.top);
-    console.log(ev.x,ev.y);
-}
+        setup();
+        draw();
+
+})(document.getElementById('canvas'));

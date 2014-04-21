@@ -4,12 +4,11 @@ var natureOfCode = natureOfCode || {};
 natureOfCode.Vectors = function (canvas) {
     "use strict";
 
-    var width = 800,
-        height = 200,
+    var width = 0, height = 0,
         numberOfMovers = 20,
         movers = [],
         refreshRate = 40,
-        mouseX = width/2, mouseY = height/2,
+        mouseX = 0, mouseY = 0,
         backgroundColor = 'antiqueWhite',
         draw = function () {
             var context = canvas.getContext("2d");
@@ -31,8 +30,8 @@ natureOfCode.Vectors = function (canvas) {
         },
 
         setup = function () {
-            canvas.width = width;
-            canvas.height = height;
+            width = canvas.width;
+            height = canvas.height;
 
             for(var i = 0;i<numberOfMovers;i++){
                 var randX = Math.random()*width;
@@ -58,3 +57,12 @@ natureOfCode.Vectors = function (canvas) {
         setMousePosition: setMousePosition
     };
 };
+
+var canvas = document.getElementById('canvas');
+var app = new natureOfCode.Vectors(canvas);
+app.run();
+canvas.onmousemove = function(ev){
+    var boundingRect = canvas.getBoundingClientRect();
+    app.setMousePosition(ev.clientX - boundingRect.left, ev.clientY - boundingRect.top);
+    console.log(ev.x,ev.y);
+}

@@ -3,18 +3,19 @@ layout: post
 title:  "Vectors"
 date:   2014-04-21 07:48:57
 categories: jekyll update
+js:
+  - js/vectors/Vector2D.js 
+  - js/vectors/Mover.js
+  - js/vectors/Vectors.js
 ---
 
 Motion is dictated by 3 vectors:
-- location
-- velocity
-- acceleration
+  - location
+  - velocity
+  - acceleration
 
 Ideally, the algorithm for motion should change the acceleration, and the other two would be calculated from that.
 
 Red means acceleration, blue means velocity.  
 
 <canvas id="canvas"></canvas>
-<script type="text/javascript" src="{{ site.url }}/js/Vector2D.js"></script>
-<script type="text/javascript" src="{{ site.url }}/js/Mover.js"></script>
-<script type="text/javascript" src="{{ site.url }}/js/Vectors.js"></script>

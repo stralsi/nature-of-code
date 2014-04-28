@@ -38,6 +38,8 @@
             </div>
           </div>
         </div>
-
+        {% for js_path in page.js %}
+        <script type="text/javascript" src="{{site.url}}/{{js_path}}"></script>
+        {% endfor %}
     </body>
 </html>

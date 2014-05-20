@@ -1,7 +1,7 @@
 var natureOfCode = natureOfCode || {};
 
 
-natureOfCode.Vectors = function (canvas) {
+natureOfCode.Ecosystem = function (canvas) {
     "use strict";
     var numberOfMovers = 20,
         movers = [],

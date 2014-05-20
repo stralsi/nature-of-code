@@ -1,17 +1,33 @@
----
-layout: default
-title: Nature of code
----
-
-<div id="home">
-  <p>
-The coding I do while reading the "Nature of code" book, by Daniel Shiffman.<br />
-The book can be found here: <a href="http://natureofcode.com">http://natureofcode.com</a>
-  </p>
-  <h1>Exercises</h1>
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{site.url}}{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Nature of code ecosystem</title>
+    <style media="screen">
+      body {
+        overflow: hidden;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      </style>
+  </head>
+  <body onLoad="run()">
+    <canvas id="canvas"></canvas>
+  </body>
+  <script type="text/javascript" src="js/Vector2D.js"></script>
+  <script type="text/javascript" src="js/Mover.js"></script>
+  <script type="text/javascript" src="js/Vectors.js"></script>
+  <script>
+    var canvas = document.getElementById("canvas"),
+        run = function() {
+          natureOfCode.Vectors(natureOfCode.canvas);
+        },
+        resize = function(){
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        };
+    resize();
+		window.onresize = resize;
+  </script>
+</html>

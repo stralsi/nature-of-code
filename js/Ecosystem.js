@@ -15,10 +15,8 @@ natureOfCode.Ecosystem = function (canvas) {
             context.fillStyle = backgroundColor;
             context.fillRect(0, 0, canvas.width, canvas.height);
 
-            for(var i = 0;i<numberOfMovers;i++){
+            for(var i = 0;i<movers.length;i++){
                 var mover = movers[i];
-
-                mover.moveTowards(mouseX,mouseY);
 
                 mover.update(canvas.width,canvas.height);
 
@@ -37,7 +35,7 @@ natureOfCode.Ecosystem = function (canvas) {
             for(var i = 0;i<numberOfMovers;i++){
                 var randX = Math.random()*canvas.width;
                 var randY = Math.random()*canvas.height;
-                movers.push(new natureOfCode.Mover(randX,randY));
+                movers.push(natureOfCode.createBug({x:randX,y:randY}));
             }
 
 

@@ -1,62 +1,48 @@
 var natureOfCode = natureOfCode || {};
 
-natureOfCode.Mover = function (xPos, yPos) {
+natureOfCode.Mover = function (settings) {
     "use strict";
-    this.location  = new natureOfCode.Vector2D(xPos, yPos);
+    console.log(settings);
+    this.location  = new natureOfCode.Vector2D(settings.x, settings.y);
+    this.drawingFunction = settings.draw;
+    this.accelerationFunction = settings.accelerate;
     this.velocity = new natureOfCode.Vector2D(0, 0);
-    this.acceleration = new natureOfCode.Vector2D(-0.001,0.01);
+    this.acceleration = new natureOfCode.Vector2D(0,0);
 };
 
 natureOfCode.Mover.prototype = (function () {
     "use strict";
-    var ballColor = '#00cccc',
-        radius = 10,
-        topSpeed = 10,
+    var topSpeed = 10,
 
         update = function (width, height) {
+            this.acceleration = this.accelerationFunction(this.acceleration);
+
             this.velocity = this.velocity.addVector(this.acceleration);
             this.velocity = limit(this.velocity,topSpeed);
 
             this.location = this.location.addVector(this.velocity);
         },
 
-        display = function (canvas) {
+        display =  function (canvas) {
             var context = canvas.getContext('2d');
 
-            //draw body
-            context.beginPath();
-            context.arc(this.location.x, this.location.y, radius, 0, 2 * Math.PI, false);
-            context.fillStyle = ballColor;
-            context.fill();
+            if(this.drawingFunction){
+              this.drawingFunction(context,this.location.x,this.location.y);
+            }else{
+              drawCircle(context,this.location.x,this.location.y);
+            }
 
-            //draw velocity
-            //make a copy just for display purposes, so that we don't affect the real velocity
-            var velocityForDisplay = new natureOfCode.Vector2D(this.velocity.x, this.velocity.y);
-            //scale it up so we can see it
-            velocityForDisplay = velocityForDisplay.multiply(3);
-            //translate it on top of the mover's body
-            velocityForDisplay = velocityForDisplay.addVector(this.location);
-            //draw it
-            drawArrow(context,this.location.x,this.location.y,velocityForDisplay.x,velocityForDisplay.y,'blue');
-
-            //draw acceleration
-            //make a copy just for display purposes, so that we don't affect the real acceleration
-            var accelerationForDisplay = new natureOfCode.Vector2D(this.acceleration.x, this.acceleration.y);
-            //scale it up so we can see it. Acceleration is tiny so it needs to be scaled up a lot.
-            accelerationForDisplay = accelerationForDisplay.multiply(50);
-            //translate it on top of the mover's body
-            accelerationForDisplay = accelerationForDisplay.addVector(this.location);
-            drawArrow(context,this.location.x,this.location.y,accelerationForDisplay.x,accelerationForDisplay.y,'red');
+            drawVelocityAndAcceleration.call(this,context);
         },
 
-        moveTowards = function (x,y){
-            var pointOfInterest = new natureOfCode.Vector2D(x,y);
-            var directionOfMovement = pointOfInterest.subtractVector(this.location);
-            directionOfMovement.normalize();
-            directionOfMovement = directionOfMovement.multiply(0.5);
-
-            this.acceleration = directionOfMovement;
-        },
+        // moveTowards = function (x,y){
+        //     var pointOfInterest = new natureOfCode.Vector2D(x,y);
+        //     var directionOfMovement = pointOfInterest.subtractVector(this.location);
+        //     directionOfMovement.normalize();
+        //     directionOfMovement = directionOfMovement.multiply(0.5);
+        //
+        //     this.acceleration = directionOfMovement;
+        // },
 
         limit = function(vector,max){
             var result = vector,
@@ -82,11 +68,39 @@ natureOfCode.Mover.prototype = (function () {
             context.lineTo(destinationX - size * Math.cos(angle+Math.PI/6), destinationY - size * Math.sin(angle+Math.PI/6));
             context.strokeStyle = color;
             context.stroke();
+        },
+
+        drawVelocityAndAcceleration = function(context){
+            //draw velocity
+            //make a copy just for display purposes, so that we don't affect the real velocity
+            var velocityForDisplay = new natureOfCode.Vector2D(this.velocity.x, this.velocity.y);
+            //scale it up so we can see it
+            velocityForDisplay = velocityForDisplay.multiply(3);
+            //translate it on top of the mover's body
+            velocityForDisplay = velocityForDisplay.addVector(this.location);
+            //draw it
+            drawArrow(context,this.location.x,this.location.y,velocityForDisplay.x,velocityForDisplay.y,'blue');
+
+            //draw acceleration
+            //make a copy just for display purposes, so that we don't affect the real acceleration
+            var accelerationForDisplay = new natureOfCode.Vector2D(this.acceleration.x, this.acceleration.y);
+            //scale it up so we can see it. Acceleration is tiny so it needs to be scaled up a lot.
+            accelerationForDisplay = accelerationForDisplay.multiply(50);
+            //translate it on top of the mover's body
+            accelerationForDisplay = accelerationForDisplay.addVector(this.location);
+            drawArrow(context,this.location.x,this.location.y,accelerationForDisplay.x,accelerationForDisplay.y,'red');
+        },
+
+        drawCircle = function(context,x,y){
+          //draw body
+          context.beginPath();
+          context.arc(x, y, 10, 0, 2 * Math.PI, false);
+          context.fillStyle = '#00ffff';
+          context.fill();
         };
 
     return{
         update:update,
-        display:display,
-        moveTowards:moveTowards
-    }
+        display:display
+    };
 })();

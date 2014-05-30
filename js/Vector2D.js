@@ -19,7 +19,7 @@ natureOfCode.Vector2D.prototype = (function () {
         },
         subtractVector = function (otherVector) {
             var result = new natureOfCode.Vector2D(this.x - otherVector.x, this.y - otherVector.y);
-            return result
+            return result;
         },
         subtractScalar = function (scalar) {
             return new natureOfCode.Vector2D(this.x - scalar, this.y - scalar);

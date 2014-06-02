@@ -35,7 +35,8 @@ natureOfCode.Ecosystem = function (canvas) {
             for(var i = 0;i<numberOfMovers;i++){
                 var randX = Math.random()*canvas.width;
                 var randY = Math.random()*canvas.height;
-                movers.push(natureOfCode.createBug({x:randX,y:randY}));
+                var randColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+                movers.push(natureOfCode.createBug({x:randX,y:randY,color:randColor}));
             }
 
 

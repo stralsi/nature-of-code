@@ -10,14 +10,14 @@ natureOfCode.createBug = function(settings){
       context.beginPath();
 
       context.arc(x, y, 10, 0, 2 * Math.PI, false);
-      context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
+      context.fillStyle = settings.color;
       context.fill();
     },
     accelerate: function(currentAcceleration){
-      var randX = Math.random() * 0.1 - 0.05,
-          randY = Math.random() * 0.1 - 0.05;
+      var randX = Math.random() - 0.5,
+          randY = Math.random() - 0.5;
 
-      return new natureOfCode.Vector2D(currentAcceleration.x + randX, currentAcceleration.y + randY);
+      return new natureOfCode.Vector2D(randX, randY);
     }
   });
 };

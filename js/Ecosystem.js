@@ -36,12 +36,12 @@ natureOfCode.Ecosystem = function (canvas) {
             };
 
             // create the bugs
-            for(i = 0;i<numberOfMovers/2;i++){
-                randX = Math.random()*canvas.width;
-                randY = Math.random()*canvas.height;
-                randColor = '#'+Math.floor(Math.random()*16777215).toString(16);
-                environment.movers.push(natureOfCode.createBug({x:randX,y:randY,color:randColor}));
-            }
+            // for(i = 0;i<numberOfMovers/2;i++){
+            //     randX = Math.random()*canvas.width;
+            //     randY = Math.random()*canvas.height;
+            //     randColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+            //     environment.movers.push(natureOfCode.createBug({x:randX,y:randY,color:randColor}));
+            // }
 
             //create the fish
             for(i = Math.floor(numberOfMovers/2);i<numberOfMovers;i++){
@@ -50,7 +50,6 @@ natureOfCode.Ecosystem = function (canvas) {
                 randColor = '#'+Math.floor(Math.random()*16777215).toString(16);
                 environment.movers.push(natureOfCode.createFish({x:randX,y:randY,color:randColor},environment));
             }
-
 
             canvas.getContext("2d").clearRect ( 0 , 0 , canvas.width , canvas.height );
         },

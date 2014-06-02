@@ -1,9 +1,9 @@
 var natureOfCode = natureOfCode || {};
 
-//the fish follows the mouse
+//the fish follows the mouse with a wavy motion
 natureOfCode.createFish = function(settings,environment){
   "use strict";
-  console.log(settings);
+  //console.log(settings);
   return new natureOfCode.Mover({
     x: settings.x,
     y: settings.y,
@@ -16,13 +16,21 @@ natureOfCode.createFish = function(settings,environment){
     },
     accelerate: function(){
       if(!environment) return;
+      var size = 100;
+      var mousePosition = new natureOfCode.Vector2D(environment.mouseX,environment.mouseY);
 
-      var pointOfInterest = new natureOfCode.Vector2D(environment.mouseX,environment.mouseY);
-      var directionOfMovement = pointOfInterest.subtractVector(this.location);
-      directionOfMovement.normalize();
-      directionOfMovement = directionOfMovement.multiply(0.5);
+      var directionToMouse = mousePosition.subtractVector(this.location);
+      var distanceToMouse = directionToMouse.magnitude();
+      directionToMouse.normalize();
+      var perpendicular = new natureOfCode.Vector2D(directionToMouse.y,-directionToMouse.x);
+      perpendicular = perpendicular.multiply( Math.sin(distanceToMouse/10) * 10);
 
-      return directionOfMovement;
+      var newAcceleration = perpendicular.addVector(directionToMouse);
+
+      newAcceleration.normalize();
+      newAcceleration = newAcceleration.multiply(0.5);
+
+      return newAcceleration;
     }
   });
 };

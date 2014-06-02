@@ -1,5 +1,6 @@
 var natureOfCode = natureOfCode || {};
 
+//the bug moves randomly across the screen
 natureOfCode.createBug = function(settings){
   "use strict";
   console.log(settings);
@@ -13,7 +14,7 @@ natureOfCode.createBug = function(settings){
       context.fillStyle = settings.color;
       context.fill();
     },
-    accelerate: function(currentAcceleration){
+    accelerate: function(){
       var randX = Math.random() - 0.5,
           randY = Math.random() - 0.5;
 

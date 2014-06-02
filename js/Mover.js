@@ -15,7 +15,7 @@ natureOfCode.Mover.prototype = (function () {
     var topSpeed = 10,
 
         update = function (width, height) {
-            this.acceleration = this.accelerationFunction(this.acceleration);
+            this.acceleration = this.accelerationFunction.call(this);
 
             this.velocity = this.velocity.addVector(this.acceleration);
             this.velocity = limit(this.velocity,topSpeed);
@@ -45,15 +45,6 @@ natureOfCode.Mover.prototype = (function () {
               this.velocity = new natureOfCode.Vector2D(this.velocity.x,-this.velocity.y);
             }
         },
-
-        // moveTowards = function (x,y){
-        //     var pointOfInterest = new natureOfCode.Vector2D(x,y);
-        //     var directionOfMovement = pointOfInterest.subtractVector(this.location);
-        //     directionOfMovement.normalize();
-        //     directionOfMovement = directionOfMovement.multiply(0.5);
-        //
-        //     this.acceleration = directionOfMovement;
-        // },
 
         limit = function(vector,max){
             var result = vector,

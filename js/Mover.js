@@ -21,6 +21,8 @@ natureOfCode.Mover.prototype = (function () {
             this.velocity = limit(this.velocity,topSpeed);
 
             this.location = this.location.addVector(this.velocity);
+
+            checkEdges.call(this,width, height);
         },
 
         display =  function (canvas) {
@@ -33,6 +35,15 @@ natureOfCode.Mover.prototype = (function () {
             }
 
             drawVelocityAndAcceleration.call(this,context);
+        },
+
+        checkEdges = function (width, height) {
+            if(this.location.x > width || this.location.x < 0 ){
+              this.velocity = new natureOfCode.Vector2D(-this.velocity.x,this.velocity.y);
+            }
+            if(this.location.y > height || this.location.y < 0 ){
+              this.velocity = new natureOfCode.Vector2D(this.velocity.x,-this.velocity.y);
+            }
         },
 
         // moveTowards = function (x,y){

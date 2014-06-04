@@ -7,6 +7,7 @@ natureOfCode.createFish = function(settings,environment){
   return new natureOfCode.Mover({
     x: settings.x,
     y: settings.y,
+    topSpeed: 3,
     draw: function(context,x,y){
       context.beginPath();
 

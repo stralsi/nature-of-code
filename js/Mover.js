@@ -8,17 +8,18 @@ natureOfCode.Mover = function (settings) {
     this.accelerationFunction = settings.accelerate;
     this.velocity = new natureOfCode.Vector2D(0, 0);
     this.acceleration = new natureOfCode.Vector2D(0,0);
+    this.topSpeed = settings.topSpeed;
 };
 
 natureOfCode.Mover.prototype = (function () {
     "use strict";
-    var topSpeed = 10,
+    var defaultTopSpeed = 10,
 
         update = function (width, height) {
             this.acceleration = this.accelerationFunction.call(this);
 
             this.velocity = this.velocity.addVector(this.acceleration);
-            this.velocity = limit(this.velocity,topSpeed);
+            this.velocity = limit(this.velocity, this.topSpeed || defaultTopSpeed);
 
             this.location = this.location.addVector(this.velocity);
 

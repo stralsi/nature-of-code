@@ -2,10 +2,10 @@ var natureOfCode = natureOfCode || {};
 
 natureOfCode.Mover = function (settings) {
     "use strict";
-    console.log(settings);
     this.location  = new natureOfCode.Vector2D(settings.x, settings.y);
     this.drawingFunction = settings.draw;
     this.accelerationFunction = settings.accelerate;
+    this.afterUpdateCallback = settings.afterUpdate;
     this.velocity = new natureOfCode.Vector2D(0, 0);
     this.acceleration = new natureOfCode.Vector2D(0,0);
     this.topSpeed = settings.topSpeed;
@@ -24,6 +24,8 @@ natureOfCode.Mover.prototype = (function () {
             this.location = this.location.addVector(this.velocity);
 
             checkEdges.call(this,width, height);
+
+            if(this.afterUpdateCallback) this.afterUpdateCallback.call(this);
         },
 
         display =  function (canvas) {

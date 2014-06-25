@@ -3,8 +3,8 @@ var natureOfCode = natureOfCode || {};
 natureOfCode.Mover = function (settings) {
     "use strict";
     this.location  = new natureOfCode.Vector2D(settings.x, settings.y);
+    this.mass = settings.mass;
     this.drawingFunction = settings.draw;
-    this.accelerationFunction = settings.accelerate;
     this.afterUpdateCallback = settings.afterUpdate;
     this.velocity = new natureOfCode.Vector2D(0, 0);
     this.acceleration = new natureOfCode.Vector2D(0,0);
@@ -14,9 +14,12 @@ natureOfCode.Mover = function (settings) {
 natureOfCode.Mover.prototype = (function () {
     "use strict";
     var defaultTopSpeed = 10,
+        forcesArray = [],
 
+        //public. This is the function where movement happens. It should be called at each frame.
         update = function (width, height) {
-            this.acceleration = this.accelerationFunction.call(this);
+            this.acceleration = calculateAcceleration(forcesArray, this.mass);
+            forcesArray = [];//the forces have to be reapplied at each cicle, they don't accumulate;
 
             this.velocity = this.velocity.addVector(this.acceleration);
             this.velocity = limit(this.velocity, this.topSpeed || defaultTopSpeed);
@@ -28,6 +31,7 @@ natureOfCode.Mover.prototype = (function () {
             if(this.afterUpdateCallback) this.afterUpdateCallback.call(this);
         },
 
+        //public. This is the function where the object is drawn. It should be called at each frame.
         display =  function (canvas) {
             var context = canvas.getContext('2d');
 
@@ -37,9 +41,38 @@ natureOfCode.Mover.prototype = (function () {
               drawCircle(context,this.location.x,this.location.y);
             }
 
-            drawVelocityAndAcceleration.call(this,context);
+            natureOfCode.arrows.drawVelocityAndAcceleration(context,this);
         },
 
+        //public. You can use forces to tell the Mover how to move.
+        applyForce = function(force){
+            //Forces are only stored in an array for now.
+            //They will be really applied in the update function.
+            forcesArray.push(force);
+        },
+
+        //private. calculating acceleration using newton's second law: a = F/m
+        calculateAcceleration = function(forces, mass){
+            var newAcceleration,
+                resultingForce = new natureOfCode.Vector2D(0,0),
+                i;
+
+            //first add all the forces
+            for(i = 0;i<forces.length;i++){
+              resultingForce = resultingForce.addVector(forces[i]);
+            }
+
+            //divide by mass
+            if(mass){
+              newAcceleration = resultingForce.divide(mass);
+            }else{
+              newAcceleration = resultingForce;
+            }
+
+            return newAcceleration;
+        },
+
+        //private. Keeps the mover from going out of screen.
         checkEdges = function (width, height) {
             if(this.location.x > width || this.location.x < 0 ){
               this.velocity = new natureOfCode.Vector2D(-this.velocity.x,this.velocity.y);
@@ -49,6 +82,7 @@ natureOfCode.Mover.prototype = (function () {
             }
         },
 
+        //private. Keeps the mover from going too fast.
         limit = function(vector,max){
             var result = vector,
                 magnitude = vector.magnitude();
@@ -60,42 +94,7 @@ natureOfCode.Mover.prototype = (function () {
             return result;
         },
 
-        drawArrow = function(context, sourceX, sourceY, destinationX, destinationY, color){
-            context.beginPath();
-            context.moveTo(sourceX, sourceY);
-            context.lineTo(destinationX, destinationY);
-
-            var size = 5;
-            var angle = Math.atan2(destinationY - sourceY, destinationX - sourceX);
-
-            context.lineTo(destinationX - size * Math.cos(angle-Math.PI/6), destinationY - size * Math.sin(angle-Math.PI/6));
-            context.moveTo(destinationX, destinationY);
-            context.lineTo(destinationX - size * Math.cos(angle+Math.PI/6), destinationY - size * Math.sin(angle+Math.PI/6));
-            context.strokeStyle = color;
-            context.stroke();
-        },
-
-        drawVelocityAndAcceleration = function(context){
-            //draw velocity
-            //make a copy just for display purposes, so that we don't affect the real velocity
-            var velocityForDisplay = new natureOfCode.Vector2D(this.velocity.x, this.velocity.y);
-            //scale it up so we can see it
-            velocityForDisplay = velocityForDisplay.multiply(3);
-            //translate it on top of the mover's body
-            velocityForDisplay = velocityForDisplay.addVector(this.location);
-            //draw it
-            drawArrow(context,this.location.x,this.location.y,velocityForDisplay.x,velocityForDisplay.y,'blue');
-
-            //draw acceleration
-            //make a copy just for display purposes, so that we don't affect the real acceleration
-            var accelerationForDisplay = new natureOfCode.Vector2D(this.acceleration.x, this.acceleration.y);
-            //scale it up so we can see it. Acceleration is tiny so it needs to be scaled up a lot.
-            accelerationForDisplay = accelerationForDisplay.multiply(50);
-            //translate it on top of the mover's body
-            accelerationForDisplay = accelerationForDisplay.addVector(this.location);
-            drawArrow(context,this.location.x,this.location.y,accelerationForDisplay.x,accelerationForDisplay.y,'red');
-        },
-
+        //private.
         drawCircle = function(context,x,y){
           //draw body
           context.beginPath();
@@ -106,6 +105,7 @@ natureOfCode.Mover.prototype = (function () {
 
     return{
         update:update,
-        display:display
+        display:display,
+        applyForce:applyForce
     };
 })();

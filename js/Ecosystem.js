@@ -10,6 +10,7 @@ natureOfCode.Ecosystem = function (canvas) {
         },
         refreshRate = 40,
         backgroundColor = 'antiqueWhite',
+        current = new natureOfCode.Vector2D(0.1,0),
 
         draw = function () {
             var context = canvas.getContext("2d");
@@ -19,6 +20,8 @@ natureOfCode.Ecosystem = function (canvas) {
 
             for(var i = 0;i<environment.movers.length;i++){
                 var mover = environment.movers[i];
+
+                mover.applyForce(current);
 
                 mover.update(canvas.width,canvas.height);
 
@@ -35,12 +38,12 @@ natureOfCode.Ecosystem = function (canvas) {
                 setMousePosition(ev.clientX - boundingRect.left, ev.clientY - boundingRect.top);
             };
 
-            // create the bugs
+            //create the bugs
             for(i = 0;i<numberOfMovers/2;i++){
                 randX = Math.random()*canvas.width;
                 randY = Math.random()*canvas.height;
                 randColor = '#'+Math.floor(Math.random()*16777215).toString(16);
-                environment.movers.push(natureOfCode.createBug({x:randX,y:randY,color:randColor}));
+                environment.movers.push(new natureOfCode.Bug({x:randX,y:randY,color:randColor},environment));
             }
 
             //create the fish
@@ -48,7 +51,7 @@ natureOfCode.Ecosystem = function (canvas) {
                 randX = Math.random()*canvas.width;
                 randY = Math.random()*canvas.height;
                 randColor = '#'+Math.floor(Math.random()*16777215).toString(16);
-                environment.movers.push(natureOfCode.createFish({x:randX,y:randY,color:randColor},environment));
+                environment.movers.push(new natureOfCode.Fish({x:randX,y:randY,color:randColor},environment));
             }
 
             canvas.getContext("2d").clearRect ( 0 , 0 , canvas.width , canvas.height );

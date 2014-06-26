@@ -56,7 +56,7 @@ var natureOfCode = natureOfCode || {};
               };
 
               //create the bugs
-              for(i = 0;i<numberOfMovers/2;i++){
+              for(i = 0;i<numberOfMovers/3;i++){
                   randX = Math.random()*canvas.width;
                   randY = Math.random()*canvas.height;
                   randColor = '#'+Math.floor(Math.random()*16777215).toString(16);
@@ -64,11 +64,19 @@ var natureOfCode = natureOfCode || {};
               }
 
               //create the fish
-              for(i = Math.floor(numberOfMovers/2);i<numberOfMovers;i++){
+              for(i = Math.floor(numberOfMovers/3);i<numberOfMovers;i++){
                   randX = Math.random()*canvas.width;
                   randY = Math.random()*canvas.height;
                   randColor = '#'+Math.floor(Math.random()*16777215).toString(16);
                   environment.movers.push(new ns.Fish({x:randX,y:randY,color:randColor},environment));
+              }
+
+              //create the wannaplay's
+              for(i = Math.floor(numberOfMovers/3);i<numberOfMovers;i++){
+                  randX = Math.random()*canvas.width;
+                  randY = Math.random()*canvas.height;
+
+                  environment.movers.push(new ns.WantsToPlay({x:randX,y:randY},environment));
               }
 
               canvas.getContext("2d").clearRect ( 0 , 0 , canvas.width , canvas.height );

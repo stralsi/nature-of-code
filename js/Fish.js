@@ -44,12 +44,12 @@ var natureOfCode = natureOfCode || {};
       var perpendicular = new ns.Vector2D(directionToMouse.y,-directionToMouse.x);
       perpendicular = perpendicular.multiply( Math.sin(distanceToMouse/10) * 10);
 
-      var newAcceleration = perpendicular.addVector(directionToMouse);
+      var willForce = perpendicular.addVector(directionToMouse);
 
-      newAcceleration.normalize();
-      newAcceleration = newAcceleration.multiply(0.5);
+      willForce.normalize();
+      willForce = willForce.multiply(0.5);
 
-      return newAcceleration;
+      return willForce;
     };
 
     settings.afterUpdate = function(){

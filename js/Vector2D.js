@@ -37,6 +37,9 @@ natureOfCode.Vector2D.prototype = (function () {
             var unit = this.divide(this.magnitude());
             this.x = unit.x;
             this.y = unit.y;
+        },
+        clone = function(){
+          return new natureOfCode.Vector2D(this.x, this.y);
         };
     return {
         addVector: addVector,
@@ -46,6 +49,7 @@ natureOfCode.Vector2D.prototype = (function () {
         multiply:multiply,
         divide:divide,
         magnitude:magnitude,
-        normalize:normalize
+        normalize:normalize,
+        clone:clone
     };
 }());

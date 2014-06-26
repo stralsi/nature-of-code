@@ -9,8 +9,10 @@ natureOfCode.Ecosystem = function (canvas) {
           mouseX : 0, mouseY : 0
         },
         refreshRate = 40,
-        backgroundColor = 'antiqueWhite',
-        current = new natureOfCode.Vector2D(0.1,0),
+        backgroundColor = '#E6E6E6',
+        currentColor = '#A9F5E1',
+        current = new natureOfCode.Vector2D(0.3,0),
+        mudColor = '#F3E2A9',
 
         draw = function () {
             var context = canvas.getContext("2d");
@@ -18,10 +20,24 @@ natureOfCode.Ecosystem = function (canvas) {
             context.fillStyle = backgroundColor;
             context.fillRect(0, 0, canvas.width, canvas.height);
 
+            //drawing current
+            context.fillStyle = currentColor;
+            context.fillRect(0, 0, canvas.width, canvas.height/4);
+
+            //drawing mud
+            context.fillStyle = mudColor;
+            context.fillRect(0, 3*canvas.height/4, canvas.width, canvas.height);
+
+
+            //draw movers
             for(var i = 0;i<environment.movers.length;i++){
                 var mover = environment.movers[i];
 
-                mover.applyForce(current);
+                //in part of the screen, there is a strong current
+                applyCurrent(mover);
+
+                //in another part of the screen there is some hard-to-swim-through mud
+                applyMud(mover);
 
                 mover.update(canvas.width,canvas.height);
 
@@ -60,6 +76,28 @@ natureOfCode.Ecosystem = function (canvas) {
         setMousePosition = function(x, y){
             environment.mouseX = x;
             environment.mouseY = y;
+        },
+        applyCurrent = function(mover){
+          if(mover.location.y < canvas.height/4 && mover.location.x < canvas.width){
+            mover.applyForce(current);
+          }
+        },
+        applyMud = function(mover){
+          if(mover.location.y > 3*canvas.height/4 && mover.location.x < canvas.width){
+            mover.applyForce(getDragForce(mover));
+          }
+        },
+        getDragForce = function(mover){
+            var density = 0.2,
+                speed, dragMagnitude, dragForce;
+
+            speed = mover.velocity.magnitude();
+            dragMagnitude = density * speed * speed; //in nature, the formula is more complex. I have ignored some parameters.
+            dragForce = mover.velocity.clone();
+            dragForce = dragForce.multiply(-1);
+            dragForce.normalize();
+            dragForce = dragForce.multiply(dragMagnitude);
+            return dragForce;
         };
 
         setup();

@@ -26,7 +26,7 @@ natureOfCode.Creature.prototype = (function () {
       display = function(canvas){
         var context = canvas.getContext('2d');
 
-        natureOfCode.arrows.drawWillForce(context,this);
+        natureOfCode.arrows.drawForceOnMover(context,this,this.willForce,'green');
 
         moverProto.display.call(this,canvas);
       },

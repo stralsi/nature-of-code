@@ -1,17 +1,17 @@
 var natureOfCode = natureOfCode || {};
 natureOfCode.arrows = natureOfCode.arrows || {};
 
-//Drawing the willForce is completely optional, just for me to understand what is happening.
-natureOfCode.arrows.drawWillForce = function(context,creature){
-    //make a copy just for display purposes, so that we don't affect the real force
-    var forceForDisplay = new natureOfCode.Vector2D(creature.willForce.x, creature.willForce.y);
-    //scale it up so we can see it
-    forceForDisplay = forceForDisplay.multiply(50);
-    //translate it on top of the mover's body
-    forceForDisplay = forceForDisplay.addVector(creature.location);
-    //draw it
-    natureOfCode.arrows.drawArrow(context,creature.location.x,creature.location.y,forceForDisplay.x,forceForDisplay.y,'green');
-};
+
+natureOfCode.arrows.drawForceOnMover = function(context,mover,force,color){
+  //make a copy just for display purposes, so that we don't affect the real force
+  var forceForDisplay = force.clone();
+  //scale it up so we can see it
+  forceForDisplay = forceForDisplay.multiply(50);
+  //translate it on top of the mover's body
+  forceForDisplay = forceForDisplay.addVector(mover.location);
+  //draw it
+  natureOfCode.arrows.drawArrow(context,mover.location.x,mover.location.y,forceForDisplay.x,forceForDisplay.y,color);
+}
 
 
 //Drawing the velocity and acceleration is completely optional, just for me to understand what is happening.
@@ -20,7 +20,7 @@ natureOfCode.arrows.drawVelocityAndAcceleration = function(context,mover){
     //make a copy just for display purposes, so that we don't affect the real velocity
     var velocityForDisplay = new natureOfCode.Vector2D(mover.velocity.x, mover.velocity.y);
     //scale it up so we can see it
-    velocityForDisplay = velocityForDisplay.multiply(3);
+    velocityForDisplay = velocityForDisplay.multiply(5);
     //translate it on top of the mover's body
     velocityForDisplay = velocityForDisplay.addVector(mover.location);
     //draw it

@@ -6,7 +6,7 @@ var natureOfCode = natureOfCode || {};
 
   //using Revealing prototype pattern because there will probably be many instances of Vector2D at the same time,
   //and this pattern saves some memory by keeping only one instance of the functions, in the prototype.
-  Vector2D = function (xPos, yPos) {
+  var Vector2D = function (xPos, yPos) {
       this.x = xPos;
       this.y = yPos;
   };

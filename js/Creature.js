@@ -1,10 +1,10 @@
 var natureOfCode = natureOfCode || {};
 
 (function(ns){
+  "use strict";
 
   //Creatures are Movers with the force of will
   ns.Creature = function(settings,environment){
-    "use strict";
     this.environment = environment;
     this.willFunction = settings.will;
     this.willForce = new ns.Vector2D(0,0);

@@ -2,18 +2,17 @@ var natureOfCode = natureOfCode || {};
 
 
 (function(ns){
+  "use strict";
+
   //using Revealing prototype pattern because there will probably be many instances of Vector2D at the same time,
   //and this pattern saves some memory by keeping only one instance of the functions, in the prototype.
-
   Vector2D = function (xPos, yPos) {
-      "use strict";
       this.x = xPos;
       this.y = yPos;
   };
   ns.Vector2D = Vector2D;
 
   Vector2D.prototype = (function () {
-      "use strict";
       var addVector = function (otherVector) {
               return new Vector2D(this.x + otherVector.x, this.y + otherVector.y);
           },

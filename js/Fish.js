@@ -1,9 +1,10 @@
 var natureOfCode = natureOfCode || {};
 
 (function(ns){
+  "use strict";
+
   //the fish follows the mouse with a wavy motion
   ns.Fish = function(settings,environment){
-    "use strict";
     var tailLength=5, tail = new Array(tailLength),
         bellySize=10;
 

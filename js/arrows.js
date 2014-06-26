@@ -1,6 +1,8 @@
 var natureOfCode = natureOfCode || {};
 
 (function(ns){
+  "use strict";
+
   ns.arrows = {};
   ns.arrows.drawForceOnMover = function(context,mover,force,color){
     //make a copy just for display purposes, so that we don't affect the real force

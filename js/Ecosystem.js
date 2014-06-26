@@ -1,9 +1,9 @@
 var natureOfCode = natureOfCode || {};
 
 (function(ns){
+  "use strict";
 
   ns.Ecosystem = function (canvas) {
-      "use strict";
       var numberOfMovers = 20,
           environment = {
             movers : [],

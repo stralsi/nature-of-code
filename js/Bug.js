@@ -1,10 +1,10 @@
 var natureOfCode = natureOfCode || {};
 
 (function(ns){
+  "use strict";
+
   //the bug moves randomly across the screen
   ns.Bug = function(settings,environment){
-    "use strict";
-
     settings.draw = function(context,x,y){
       context.beginPath();
 

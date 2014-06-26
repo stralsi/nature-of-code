@@ -1,9 +1,9 @@
 var natureOfCode = natureOfCode || {};
 
 (function(ns){
+"use strict";
 
   ns.Mover = function (settings) {
-      "use strict";
       this.location  = new ns.Vector2D(settings.x, settings.y);
       this.mass = settings.mass;
       this.drawingFunction = settings.draw;
@@ -14,7 +14,6 @@ var natureOfCode = natureOfCode || {};
   };
 
   ns.Mover.prototype = (function () {
-      "use strict";
       var defaultTopSpeed = 10,
           forcesArray = [],
 

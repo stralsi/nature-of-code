@@ -9,7 +9,6 @@ var natureOfCode = natureOfCode || {};
             movers : [],
             mouseX : 0, mouseY : 0
           },
-          refreshRate = 40,
           backgroundColor = '#E6E6E6',
           currentColor = '#A9F5E1',
           current = new ns.Vector2D(0.3,0),
@@ -45,7 +44,7 @@ var natureOfCode = natureOfCode || {};
                   mover.display(canvas);
               }
 
-              setTimeout(draw, refreshRate);
+              requestAnimationFrame(draw);
           },
 
           setup = function () {

@@ -81,6 +81,11 @@ var natureOfCode = natureOfCode || {};
               if(this.location.y > height || this.location.y < 0 ){
                 this.velocity = new ns.Vector2D(this.velocity.x,-this.velocity.y);
               }
+
+              if(this.location.x < 0) this.location.x = 0;
+              if(this.location.x > width) this.location.x = width;
+              if(this.location.y < 0) this.location.y = 0;
+              if(this.location.y > height) this.location.y = height;
           },
 
           //private. Keeps the mover from going too fast.
@@ -102,6 +107,8 @@ var natureOfCode = natureOfCode || {};
             context.arc(x, y, 10, 0, 2 * Math.PI, false);
             context.fillStyle = '#00ffff';
             context.fill();
+            context.strokeStyle = '#00ffff';
+            context.stroke();
           };
 
       return{

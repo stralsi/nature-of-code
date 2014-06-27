@@ -5,15 +5,19 @@ var natureOfCode = natureOfCode || {};
 
   //the fish follows the mouse with a wavy motion
   ns.Fish = function(settings,environment){
-    var tailLength=5, tail = new Array(tailLength),
-        bellySize=10;
+    var tailLength, tail = new Array(tailLength),
+        bellySize;
 
-    settings.topSpeed = 3;
+    settings.mass = Math.floor(Math.random()*5)+5
+    settings.topSpeed = Math.floor(Math.random()*4)+1;
+
+    bellySize = settings.mass;
+    tailLength = Math.floor(2*settings.mass/3);
 
     settings.draw = function(context,x,y){
       context.beginPath();
 
-      context.arc(x, y, 10, 0, 2 * Math.PI, false);
+      context.arc(x, y, bellySize, 0, 2 * Math.PI, false);
       context.fillStyle = settings.color;
       context.fill();
 

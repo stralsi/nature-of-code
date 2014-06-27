@@ -9,13 +9,15 @@ var natureOfCode = natureOfCode || {};
 
   //this creature runs after the other creatures which get close to it
   ns.WantsToPlay = function(settings,environment){
-    settings.topSpeed = 3;
+    settings.topSpeed = Math.floor(Math.random()*4)+1;
     settings.draw = function(context,x,y){
       context.beginPath();
 
       context.arc(x, y, 7, 0, 2 * Math.PI, false);
-      context.fillStyle = '#B40404';
+      context.fillStyle = "rgba(180, 4, 4, 0.2)";
       context.fill();
+      context.strokeStyle = "rgb(180, 4, 4)";
+      context.stroke();
     };
 
     settings.will = function(){
